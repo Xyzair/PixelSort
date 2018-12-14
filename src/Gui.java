@@ -1,13 +1,15 @@
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class Gui {
+public class Gui implements ActionListener {
 
 	private static JFrame window;
 	private static JMenuBar menu;
 	private static ActionListener al;
+	private static JMenuItem test;
 	
 	
 	public static void main(String args[])
@@ -32,14 +34,16 @@ public class Gui {
 		JMenu sorts = new JMenu("Sorts");
 		JMenu file = new JMenu("File");
 		
-		sorts.add(menuitem("test"));
+		test = menuitem("Test");
+		test.addActionListener(al);
+		
+		sorts.add(test);
 		
 		file.add(menuitem("Select Image"));
 		file.add(menuitem("Exit"));
 		
 		menu.add(file);
 		menu.add(sorts);
-		
 		
 		window.add(menu, BorderLayout.NORTH);
 	}
@@ -50,5 +54,20 @@ public class Gui {
 		temp.addActionListener(al);
 		
 		return temp;
+	}
+	
+	public void actionPerformed(ActionEvent event)
+	{
+		String contents = event.getActionCommand();
+		System.out.println(contents);
+		
+		if(contents.compareTo("Test") == 0)
+		{
+			System.out.println("Test successful");
+			window.setName("test");
+		}
+		
+		else
+			System.out.println("EVVEN");
 	}
 }
