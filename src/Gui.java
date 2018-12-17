@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -39,7 +41,7 @@ public class Gui implements ActionListener
 		window = new JFrame("Sorting Interface");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLayout(new BorderLayout());
-		window.setSize(960, 540);
+		window.setSize(1680, 945);
 	}
 	
 	private void setupMenus()
@@ -87,7 +89,11 @@ public class Gui implements ActionListener
 		try 
 		{
 			//turns a file path -> buffered image -> imageIcon -> display in JLabel
-			label = new JLabel(new ImageIcon(ImageIO.read(new File(path))));
+			BufferedImage image = ImageIO.read(new File(path));
+			ImageIcon icon = new ImageIcon(image);
+			icon = new ImageIcon(icon.getImage().getScaledInstance(window.getWidth()/2, window.getHeight()/2, Image.SCALE_DEFAULT));
+			label = new JLabel(icon);
+			
 			//JOptionPane.showMessageDialog(null, label);
 			return label;
 		} 
