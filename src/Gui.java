@@ -1,19 +1,18 @@
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class Gui implements ActionListener {
+public class Gui{
 
-	private static JFrame window;
-	private static JMenuBar menu;
-	private static ActionListener al;
-	private static JMenuItem test;
-	
+	static JFrame window;
+	static JMenuBar menu;
+	static JMenuItem test;
+	static GUIListener gl;
 	
 	public static void main(String args[])
 	{
+		gl = new GUIListener();
 		setupWindow();
 		setupMenus();
 		window.setVisible(true);
@@ -35,7 +34,7 @@ public class Gui implements ActionListener {
 		JMenu file = new JMenu("File");
 		
 		test = menuitem("Test");
-		test.addActionListener(al);
+		test.addActionListener((ActionListener) gl);
 		
 		sorts.add(test);
 		
@@ -51,23 +50,8 @@ public class Gui implements ActionListener {
 	private static JMenuItem menuitem(String name)
 	{
 		JMenuItem temp = new JMenuItem(name);
-		temp.addActionListener(al);
+		temp.addActionListener((ActionListener) gl);
 		
 		return temp;
-	}
-	
-	public void actionPerformed(ActionEvent event)
-	{
-		String contents = event.getActionCommand();
-		System.out.println(contents);
-		
-		if(contents.compareTo("Test") == 0)
-		{
-			System.out.println("Test successful");
-			window.setName("test");
-		}
-		
-		else
-			System.out.println("EVVEN");
-	}
+	}	
 }
