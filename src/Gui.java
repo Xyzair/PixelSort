@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import javax.swing.filechooser.*;
 
 import javax.swing.*;
 
@@ -10,11 +12,13 @@ public class Gui implements ActionListener
 	static JFrame window;
 	static JMenuBar menu;
 	static JMenuItem test;
-	static Gui al;
+	static Gui al; //to be used as an ActionListener
+	static JFileChooser jfc;
 	
 	Gui()
 	{
 		super();
+		jfc = new JFileChooser();
 	}
 	
 	public static void main(String args[])
@@ -73,7 +77,12 @@ public class Gui implements ActionListener
 		
 		else if(contents.compareTo("Select Image") == 0)
 		{
-			System.out.println("Image test successful1");
+			int returnVal = jfc.showOpenDialog(jfc);
+			
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+            	File file = jfc.getSelectedFile();
+            	//TODO set first image panel here
+            }
 		}
 		
 		else if(contents.compareTo("Test") == 0)
