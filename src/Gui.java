@@ -1,18 +1,25 @@
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class Gui{
+public class Gui implements ActionListener
+{
 
 	static JFrame window;
 	static JMenuBar menu;
 	static JMenuItem test;
-	static GUIListener gl;
+	static Gui al;
+	
+	Gui()
+	{
+		super();
+	}
 	
 	public static void main(String args[])
 	{
-		gl = new GUIListener();
+		al = new Gui();
 		setupWindow();
 		setupMenus();
 		window.setVisible(true);
@@ -22,7 +29,7 @@ public class Gui{
 	{
 		window = new JFrame("Sorting Interface");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//window.setLayout(BorderLayout);
+		window.setLayout(new BorderLayout());
 		window.setSize(960, 540);
 		
 	}
@@ -34,7 +41,6 @@ public class Gui{
 		JMenu file = new JMenu("File");
 		
 		test = menuitem("Test");
-		test.addActionListener((ActionListener) gl);
 		
 		sorts.add(test);
 		
@@ -50,8 +56,34 @@ public class Gui{
 	private static JMenuItem menuitem(String name)
 	{
 		JMenuItem temp = new JMenuItem(name);
-		temp.addActionListener((ActionListener) gl);
+		temp.addActionListener(al);
 		
 		return temp;
-	}	
+	}
+
+	public void actionPerformed(ActionEvent event)
+	{
+		String contents = event.getActionCommand();
+		System.out.println(contents);
+		
+		if(contents.compareTo("Exit") == 0)
+		{
+			System.exit(0);
+		}
+		
+		else if(contents.compareTo("Select Image") == 0)
+		{
+			System.out.println("Image test successful1");
+		}
+		
+		else if(contents.compareTo("Test") == 0)
+		{
+			System.out.println("Test successful1");
+		}
+		
+		else
+		{
+			System.out.println("Else1");
+		}
+	}
 }
