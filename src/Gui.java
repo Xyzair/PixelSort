@@ -24,7 +24,10 @@ public class Gui implements ActionListener
 	Gui()
 	{
 		super();
+		
+		//JFileChoose setup
 		jfc = new JFileChooser();
+		jfc.setCurrentDirectory(new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Pictures"));
 		
 		setupWindow();
 		setupMenus();
