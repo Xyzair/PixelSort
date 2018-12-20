@@ -1,5 +1,5 @@
 import java.awt.BorderLayout;
-import java.awt.Image;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -81,22 +81,32 @@ public class Gui implements ActionListener
 //		image = loadImage("./src/TestingImages/ColorExplosion.jpg");
 //		sortedImage = loadImage("./src/TestingImages/Scenic.png");
 		
-		image = loadImage(path);
-		window.add(image, BorderLayout.WEST);
+		if(image != null)
+		{
+			window.remove(image);
+		}
 		
+		image = loadImage(path);
+		
+		image.setMaximumSize(new Dimension(1920, 1080));
 		
 		image.setSize(window.getWidth()/2, window.getHeight()/2);
 		
+		window.add(image, BorderLayout.WEST);
+		
+		window.repaint();
 		
 	    window.getRootPane().addComponentListener(new ComponentAdapter() 
 	    	{
 	            public void componentResized(ComponentEvent event) 
 	            {
 	            	if(image != null)
-	            		image.setSize(window.getWidth()/2, window.getHeight());
+	            		image.setSize(window.getWidth()/2, window.getHeight()/2);
 	                
 	            	if(sortedImage != null)
-	            		sortedImage.setSize(window.getWidth()/2, window.getHeight());
+	            		sortedImage.setSize(window.getWidth()/2, window.getHeight()/2);
+	            	
+	            	window.repaint();
 	            }
 	        });
 		
@@ -104,12 +114,20 @@ public class Gui implements ActionListener
 	
 	private void setupSortedImagePanel(String path)
 	{
+		if(sortedImage != null)
+		{
+			window.remove(sortedImage);
+		}
+		
 		sortedImage = loadImage(path);
+		
+		sortedImage.setMaximumSize(new Dimension(1920, 1080));
 		
 		sortedImage.setSize(window.getWidth()/2, window.getHeight());
 		
 		window.add(sortedImage, BorderLayout.EAST);
 		
+		window.repaint();
 		
 	}
 	
