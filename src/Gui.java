@@ -14,12 +14,12 @@ import javax.swing.*;
 public class Gui implements ActionListener
 {
 
-	static JFrame window;
-	static JMenuBar menu;
-	static Gui al; //to be used as an ActionListener
-	static JFileChooser jfc;
-	static JLabel image, sortedImage;
-	static File file;
+	JFrame window;
+	JMenuBar menu;
+	Gui al; //to be used as an ActionListener
+	JFileChooser jfc;
+	JLabel image, sortedImage;
+	File file;
 	
 	Gui()
 	{
@@ -31,13 +31,13 @@ public class Gui implements ActionListener
 		
 		setupWindow();
 		setupMenus();
+		window.setVisible(true);
 	}
 	
 	public static void main(String args[])
 	{
 		Gui gui = new Gui();
 
-		window.setVisible(true);
 	}
 	
 	private void setupWindow()
@@ -45,7 +45,8 @@ public class Gui implements ActionListener
 		window = new JFrame("Sorting Interface");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLayout(new BorderLayout());
-		window.setSize(1680, 945);
+		window.setSize(1920,1080);
+		//window.setSize(3840, 2160);
 	}
 	
 	private void setupMenus()
@@ -89,13 +90,13 @@ public class Gui implements ActionListener
 		image = loadImage(path);
 		
 		image.setMaximumSize(new Dimension(1920, 1080));
-		
 		image.setSize(window.getWidth()/2, window.getHeight()/2);
 		
 		window.add(image, BorderLayout.WEST);
 		
 		window.repaint();
 		
+		//Inserting a component listener to place that can constantly update during window size changes
 	    window.getRootPane().addComponentListener(new ComponentAdapter() 
 	    	{
 	            public void componentResized(ComponentEvent event) 
@@ -122,7 +123,6 @@ public class Gui implements ActionListener
 		sortedImage = loadImage(path);
 		
 		sortedImage.setMaximumSize(new Dimension(1920, 1080));
-		
 		sortedImage.setSize(window.getWidth()/2, window.getHeight());
 		
 		window.add(sortedImage, BorderLayout.EAST);
@@ -216,7 +216,7 @@ public class Gui implements ActionListener
 			if(file != null)
 			{
 				setupSortedImagePanel(file.toString());
-				
+				new ImageSort().tbDefaultSort(file);
 			}
 			else
 			{
