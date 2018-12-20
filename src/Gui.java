@@ -2,6 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +18,7 @@ public class Gui implements ActionListener
 	static JMenuBar menu;
 	static Gui al; //to be used as an ActionListener
 	static JFileChooser jfc;
-	JLabel image, sortedImage;
+	static JLabel image, sortedImage;
 	static File file;
 	
 	Gui()
@@ -79,6 +81,17 @@ public class Gui implements ActionListener
 		
 		window.add(image, BorderLayout.WEST);
 		window.add(sortedImage, BorderLayout.EAST);
+		image.setSize(window.getWidth()/2, window.getHeight()/2);
+		sortedImage.setSize(window.getWidth()/2, window.getHeight()/2);
+		
+	    window.getRootPane().addComponentListener(new ComponentAdapter() 
+	    	{
+	            public void componentResized(ComponentEvent event) 
+	            {
+	                image.setSize(window.getWidth()/2, window.getHeight()/2);
+	                sortedImage.setSize(window.getWidth()/2, window.getHeight()/2);
+	            }
+	        });
 		
 	}
 	
@@ -91,7 +104,9 @@ public class Gui implements ActionListener
 			//turns a file path -> buffered image -> imageIcon -> display in JLabel
 			BufferedImage image = ImageIO.read(new File(path));
 			ImageIcon icon = new ImageIcon(image);
-			icon = new ImageIcon(icon.getImage().getScaledInstance(window.getWidth()/2, window.getHeight()/2, Image.SCALE_DEFAULT));
+			//resizing image
+			icon = new ImageIcon(icon.getImage());
+			//.getScaledInstance(window.getWidth()/2, window.getHeight()/2, Image.SCALE_DEFAULT)
 			label = new JLabel(icon);
 			
 			//JOptionPane.showMessageDialog(null, label);
