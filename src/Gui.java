@@ -28,7 +28,6 @@ public class Gui implements ActionListener
 		
 		setupWindow();
 		setupMenus();
-		setupImagePanels();
 	}
 	
 	public static void main(String args[])
@@ -73,36 +72,77 @@ public class Gui implements ActionListener
 		return temp;
 	}
 	
-	private void setupImagePanels()
+	private void setupImagePanel(File path)
 	{
-		//is there a point in this method?
-		image = loadImage("./src/TestingImages/ColorExplosion.jpg");
-		sortedImage = loadImage("./src/TestingImages/Scenic.png");
+		//leaving this here for testing
+//		image = loadImage("./src/TestingImages/ColorExplosion.jpg");
+//		sortedImage = loadImage("./src/TestingImages/Scenic.png");
 		
+		image = loadImage(path);
 		window.add(image, BorderLayout.WEST);
-		window.add(sortedImage, BorderLayout.EAST);
+		
+		
 		image.setSize(window.getWidth()/2, window.getHeight()/2);
-		sortedImage.setSize(window.getWidth()/2, window.getHeight()/2);
+		
 		
 	    window.getRootPane().addComponentListener(new ComponentAdapter() 
 	    	{
 	            public void componentResized(ComponentEvent event) 
 	            {
-	                image.setSize(window.getWidth()/2, window.getHeight()/2);
-	                sortedImage.setSize(window.getWidth()/2, window.getHeight()/2);
+	            	if(image != null)
+	            		image.setSize(window.getWidth()/2, window.getHeight());
+	                
+	            	if(sortedImage != null)
+	            		sortedImage.setSize(window.getWidth()/2, window.getHeight());
 	            }
 	        });
+		
+	}
+	
+	private void setupSortedImagePanel(String path)
+	{
+		sortedImage = loadImage(path);
+		
+		sortedImage.setSize(window.getWidth()/2, window.getHeight());
+		
+		window.add(sortedImage, BorderLayout.EAST);
+		
 		
 	}
 	
 	private static JLabel loadImage(String path)
 	{
 		JLabel label;
-		
 		try 
 		{
 			//turns a file path -> buffered image -> imageIcon -> display in JLabel
 			BufferedImage image = ImageIO.read(new File(path));
+			ImageIcon icon = new ImageIcon(image);
+			//resizing image
+			icon = new ImageIcon(icon.getImage());
+			//.getScaledInstance(window.getWidth()/2, window.getHeight()/2, Image.SCALE_DEFAULT)
+			label = new JLabel(icon);
+			
+			//JOptionPane.showMessageDialog(null, label);
+			return label;
+		} 
+		
+		catch (IOException e) 
+		{
+			
+		}
+		
+		return null;
+	}
+	
+	private static JLabel loadImage(File path)
+	{
+		JLabel label;
+		
+		try 
+		{
+			//turns a file path -> buffered image -> imageIcon -> display in JLabel
+			BufferedImage image = ImageIO.read(path);
 			ImageIcon icon = new ImageIcon(image);
 			//resizing image
 			icon = new ImageIcon(icon.getImage());
@@ -135,14 +175,22 @@ public class Gui implements ActionListener
 		{
 			int returnVal = jfc.showOpenDialog(jfc);
 			
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
+            if (returnVal == JFileChooser.APPROVE_OPTION) 
+            {
+            	if(image != null)
+            	{
+            		window.remove(image);
+            	}
+            	
             	file = jfc.getSelectedFile();
-            	//TODO set first image panel here
+            	
+            	setupImagePanel(file);
             }
 		}
 		
 		else if(contents.compareTo("Test") == 0)
 		{
+			setupSortedImagePanel(file.toString());
 			System.out.println("Test successful");
 		}
 		
