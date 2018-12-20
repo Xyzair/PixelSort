@@ -188,12 +188,22 @@ public class Gui implements ActionListener
             	file = jfc.getSelectedFile();
             	
             	setupImagePanel(file);
+            	
+            	
             }
 		}
 		
 		else if(contents.compareTo("Test") == 0)
 		{
-			setupSortedImagePanel(file.toString());
+			if(file != null)
+			{
+				setupSortedImagePanel(file.toString());
+				
+			}
+			else
+			{
+				System.out.println("Please select a file first.");
+			}
 			System.out.println("Test successful");
 		}
 		
