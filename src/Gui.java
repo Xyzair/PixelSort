@@ -18,9 +18,15 @@ public class Gui implements ActionListener
 	JMenuBar menu;
 	Gui al; //to be used as an ActionListener
 	JFileChooser jfc;
-	JLabel image, sortedImage;
-	File file;
-	
+	JLabel image, sortedImageLabel;
+	File imageFile;
+	File sortedFile;
+
+	public static void main(String args[])
+	{
+		Gui gui = new Gui();
+	}
+
 	Gui()
 	{
 		super();
@@ -34,12 +40,6 @@ public class Gui implements ActionListener
 		window.setVisible(true);
 	}
 	
-	public static void main(String args[])
-	{
-		Gui gui = new Gui();
-
-	}
-	
 	private void setupWindow()
 	{
 		window = new JFrame("Sorting Interface");
@@ -47,6 +47,7 @@ public class Gui implements ActionListener
 		window.setLayout(new BorderLayout());
 		window.setSize(1920,1080);
 		//window.setSize(3840, 2160);
+		window.repaint();
 	}
 	
 	private void setupMenus()
@@ -66,6 +67,8 @@ public class Gui implements ActionListener
 		menu.add(sorts);
 		
 		window.add(menu, BorderLayout.NORTH);
+
+		window.repaint();
 	}
 	
 	private JMenuItem menuitem(String name)
@@ -88,11 +91,10 @@ public class Gui implements ActionListener
 		}
 		
 		image = loadImage(path);
-		
 		image.setMaximumSize(new Dimension(1920, 1080));
 		image.setSize(window.getWidth()/2, window.getHeight()/2);
 		
-		window.add(image, BorderLayout.WEST);
+		window.add(image, BorderLayout.EAST);
 		
 		window.repaint();
 		
@@ -104,8 +106,8 @@ public class Gui implements ActionListener
 	            	if(image != null)
 	            		image.setSize(window.getWidth()/2, window.getHeight()/2);
 	                
-	            	if(sortedImage != null)
-	            		sortedImage.setSize(window.getWidth()/2, window.getHeight()/2);
+	            	if(sortedImageLabel != null)
+	            		sortedImageLabel.setSize(window.getWidth()/2, window.getHeight()/2);
 	            	
 	            	window.repaint();
 	            }
@@ -113,19 +115,19 @@ public class Gui implements ActionListener
 		
 	}
 	
-	private void setupSortedImagePanel(String path)
+	private void setupSortedImagePanel(File path)
 	{
-		if(sortedImage != null)
+		if(sortedImageLabel != null)
 		{
-			window.remove(sortedImage);
+			window.remove(sortedImageLabel);
 		}
 		
-		sortedImage = loadImage(path);
+		sortedImageLabel = loadImage(path);
 		
-		sortedImage.setMaximumSize(new Dimension(1920, 1080));
-		sortedImage.setSize(window.getWidth()/2, window.getHeight());
+		sortedImageLabel.setMaximumSize(new Dimension(1920, 1080));
+		sortedImageLabel.setSize(window.getWidth()/2, window.getHeight()/2);
 		
-		window.add(sortedImage, BorderLayout.EAST);
+		window.add(sortedImageLabel, BorderLayout.WEST);
 		
 		window.repaint();
 		
@@ -203,20 +205,22 @@ public class Gui implements ActionListener
             		window.remove(image);
             	}
             	
-            	file = jfc.getSelectedFile();
+            	imageFile = jfc.getSelectedFile();
             	
-            	setupImagePanel(file);
-            	
-            	
+            	setupImagePanel(imageFile);
+
             }
 		}
 		
 		else if(contents.compareTo("Test") == 0)
 		{
-			if(file != null)
+			if(imageFile != null)
 			{
-				setupSortedImagePanel(file.toString());
-				new ImageSort().tbDefaultSort(file);
+				//todo what actually happened here?
+				sortedFile = new ImageSort().tbDefaultSort(imageFile);
+				setupSortedImagePanel(sortedFile);
+
+				window.repaint();
 			}
 			else
 			{
