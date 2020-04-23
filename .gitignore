@@ -13,3 +13,7 @@ hs_err_pid*
 /bin/
 
 src/FileChooserDemo\.java
+
+PixelSort.iml
+
+.idea/

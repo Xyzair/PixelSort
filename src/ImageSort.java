@@ -10,43 +10,56 @@ import javax.imageio.ImageIO;
 public final class ImageSort {
 
 	int width, height;
+	File file;
 	
-	public final void tbDefaultSort(File file)
+	public final File tbDefaultSort(File file)
 	{
+		File ret = new File(file.toString() + "tbDefaultSort.png");
+		//TODO there may be double this.file = file
+		this.file = file;
+		//CreateRGBArray handles initializing width, height and file
 		int[] image = createRGBArray(file);
 		
 		Arrays.sort(image);
 		
-		tbToImage(image, "tbDefaultSort", file);
+		btToImage(image, "tbDefaultSort", file);
+		return ret;
 	}
 	
-	//tb stands for top to bottom
-	private void tbToImage(int[] image, String sortName, File file)
+	//bt stands for bottom to top
+	private void btToImage(int[] image, String sortName, File file)
 	{
 		BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		
+		this.file = file;
+
+		System.out.println("H: "+height+" Width: "+width);
+
 		for(int i = 0; i < height*width; i++)
 		{
 				int pixel = image[i];
 				int x = i/height ;
-				int y = (height -1 - i) % height;
+				int y = height - 1 - (i % (height-1));
+
+				System.out.println("X: " + x + " Y: " + y);
+
 				bi.setRGB(x, y, pixel);
 		}
 		
-		print(bi, sortName, file);
+		print(bi, sortName);
 	}
 	
 	//lr stands for left to right
 	public final void lrDefaultSort(File file)
 	{
+		this.file = file;
 		int[] image = createRGBArray(file);
 		
 		Arrays.sort(image);
 		
-		lrToImage(image, "defaultSort", file);
+		lrToImage(image, "defaultSort");
 	}
 	
-	private void lrToImage(int[] image, String sortName, File file)
+	private void lrToImage(int[] image, String sortName)
 	{
 		BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		
@@ -59,12 +72,12 @@ public final class ImageSort {
 			}
 		}
 		
-		print(bi, sortName, file);
+		print(bi, sortName);
 	}
 	
 	//This exists because it's going to be called a lot and the sorting
 	// of the pixels before printing is a big part of how it will look at the end.
-	private void print(BufferedImage bi, String sortName, File file)
+	private void print(BufferedImage bi, String sortName)
 	{
 		File outputfile = new File(file.getPath() + sortName + ".png");
 		
