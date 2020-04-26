@@ -10,18 +10,17 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class Gui implements ActionListener
-{
+public class Gui implements ActionListener {
 
-	JFrame window;
-	JMenuBar menu;
-	Gui al; //to be used as an ActionListener
-	JFileChooser jfc;
-	JLabel image, sortedImageLabel, imageFrame;
-	File imageFile;
-	File sortedFile;
+	private JFrame window;
+	private JMenuBar menu;
+	private Gui al; //to be used as an ActionListener
+	private JFileChooser jfc;
+	private JLabel image, sortedImageLabel, imageFrame;
+	private File imageFile;
+	private File sortedFile;
 
-	public static void main(String args[])
+	public static void main(String[] args)
 	{
 		Gui gui = new Gui();
 	}
@@ -108,12 +107,13 @@ public class Gui implements ActionListener
 	    	{
 	            public void componentResized(ComponentEvent event)
 	            {
-	            	if(image != null)
-	            		image.setSize(window.getWidth(), window.getHeight()/2);
+	            	if(image != null) {
+						image.setSize(window.getWidth(), window.getHeight() / 2);
+					}
 
-	            	if(sortedImageLabel != null)
-	            		sortedImageLabel.setSize(window.getWidth(), window.getHeight()/2);
-
+	            	if(sortedImageLabel != null) {
+						sortedImageLabel.setSize(window.getWidth(), window.getHeight() / 2);
+					}
 	            	window.revalidate();
 	            	window.repaint();
 	            }
@@ -222,8 +222,11 @@ public class Gui implements ActionListener
 		{
 			if(imageFile != null)
 			{
-				//todo what actually happened here?
-				sortedFile = new ImageSort().tbDefaultSort(imageFile);
+				IPixelSort pixel = new RGBArraySort(imageFile);
+				pixel.sort();
+				sortedFile = pixel.print();
+
+				//sortedFile = new ImageSort().tbDefaultSort(imageFile);
 				setupSortedImagePanel(sortedFile);
 
 				window.repaint();
