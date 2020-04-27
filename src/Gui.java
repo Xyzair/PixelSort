@@ -55,6 +55,8 @@ public class Gui implements ActionListener {
 		JMenu file = new JMenu("File");
 
 		//sort menu tab
+		sorts.add(menuitem("RGB Array Sort"));
+		sorts.add(menuitem("HSB Array Sort"));
 		sorts.add(menuitem("Test"));
 
 		//file menu tab
@@ -218,7 +220,7 @@ public class Gui implements ActionListener {
             }
 		}
 
-		else if(contents.compareTo("Test") == 0)
+		else if(contents.compareTo("RGB Array Sort") == 0)
 		{
 			if(imageFile != null)
 			{
@@ -230,17 +232,39 @@ public class Gui implements ActionListener {
 				setupSortedImagePanel(sortedFile);
 
 				window.repaint();
+
+				System.out.println(contents + " was successful");
 			}
 			else
 			{
 				System.out.println("Please select a file first.");
 			}
-			System.out.println("Test successful");
+		}
+
+		else if(contents.compareTo("HSB Array Sort") == 0)
+		{
+			if(imageFile != null)
+			{
+				IPixelSort pixel = new HSBArraySort(imageFile);
+				pixel.sort();
+				sortedFile = pixel.print();
+
+				//sortedFile = new ImageSort().tbDefaultSort(imageFile);
+				setupSortedImagePanel(sortedFile);
+
+				window.repaint();
+
+				System.out.println(contents + " was successful");
+			}
+			else
+			{
+				System.out.println("Please select a file first.");
+			}
 		}
 
 		else
 		{
-			System.out.println("Else");
+			System.out.println(contents + " was not caught");
 		}
 	}
 }
