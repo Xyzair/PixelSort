@@ -6,11 +6,14 @@ import java.util.Arrays;
 
 public class RGBArraySort implements IPixelSort {
 
-    private int width, height;
-    private File originalFile, sortedFile;
-    private BufferedImage originalImage, sortedImage;
+    int width;
+    int height;
+    final File originalFile;
+    File sortedFile;
+    BufferedImage originalImage;
+    BufferedImage sortedImage;
 
-    public RGBArraySort(File file) {
+    public RGBArraySort(final File file) {
         originalFile = file;
         try {
             originalImage = ImageIO.read(file);
@@ -24,28 +27,27 @@ public class RGBArraySort implements IPixelSort {
     @Override
     public void sort() {
 
-        sortedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        int[] image = createRGBArray(originalFile);
+        sortedImage = new BufferedImage(width, height,
+                BufferedImage.TYPE_INT_RGB);
+        int[] image = createRGBArray();
 
         //get the basis of the ordering
         Arrays.sort(image);
 
-        System.out.println("Height: " + height + " Width: " + width);
+        //System.out.println("Height: " + height + " Width: " + width);
         //Generate the sorted BufferedImage
         for (int i = 0; i < height * width; i++) {
             int pixel = image[i];
             int x = i / height;
             int y = height - 1 - (i % height);
 
-            System.out.println("X: " + x + " Y: " + y);
+            //System.out.println("X: " + x + " Y: " + y);
 
             sortedImage.setRGB(x, y, pixel);
         }
-
-        System.out.println("Height: " + height + " Width: " + width);
     }
 
-    private int[] createRGBArray(File file) {
+    private int[] createRGBArray() {
         int[] arr;
 
         arr = new int[width * height];
