@@ -3,18 +3,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-abstract class IPixelSort {
+abstract class PixelSort {
 
-    int width;
-    int height;
+    private int width;
+    private int height;
 
-    File originalFile;
-    File sortedFile;
+    private File originalFile;
+    private File sortedFile;
 
-    BufferedImage originalImage;
-    BufferedImage sortedImage;
+    private BufferedImage originalImage;
+    private BufferedImage sortedImage;
 
-    IPixelSort(File file){
+    PixelSort(final File file) {
         originalFile = file;
         try {
             originalImage = ImageIO.read(file);
@@ -34,9 +34,10 @@ abstract class IPixelSort {
      * Prints the image to a file and then returns the file location.
      * @return The location of the sorted image file as a File
      */
-    File print(){
+    File print() {
         try {
-            sortedFile = new File(originalFile.toString() + this.getClass().getSimpleName() + ".png");
+            sortedFile = new File(originalFile.toString()
+                    + this.getClass().getSimpleName() + ".png");
             ImageIO.write(sortedImage, "png", sortedFile);
 
             return sortedFile;
@@ -45,6 +46,21 @@ abstract class IPixelSort {
         }
         return null;
     }
+
+    /**
+     * @return Width of the original buffered image
+     */
+    int getWidth() {
+        return width;
+    }
+
+    /**
+     * @return Height of the original buffered image
+     */
+    int getHeight() {
+        return height;
+    }
+
     /**
      * @return original image as a BufferedImage
      */
@@ -59,16 +75,24 @@ abstract class IPixelSort {
         return sortedImage;
     }
 
+    void setSortedImage(final BufferedImage sortedImage) {
+        this.sortedImage = sortedImage;
+    }
+
     /**
      * @return the file location of the sorted image as a File
      */
-    File getSortedFile() { return sortedFile; }
+    File getSortedFile() {
+        return sortedFile;
+    }
+
 
     /**
      * @return some stats as a String about the image such as size
      */
     String stats() {
-        String str = "Image Size: " + width + "x" + height + " Original File:" + originalFile.toString();
+        String str = "Image Size: " + width + "x" + height
+                + " Original File:" + originalFile.toString();
         return str;
     }
 }

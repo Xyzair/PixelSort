@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class HSBArraySort extends RGBArraySort {
+public class HSBArraySort extends PixelSort {
     public HSBArraySort(File file) {
         super(file);
     }
@@ -13,7 +13,10 @@ public class HSBArraySort extends RGBArraySort {
     @Override
     public void sort() {
         //There is going to be so many extra cycles because there's no HSB type
-        sortedImage = new BufferedImage(width, height,
+        int width = getWidth();
+        int height = getHeight();
+
+        BufferedImage sortedImage = new BufferedImage(width, height,
                 BufferedImage.TYPE_INT_RGB);
         float[][] image;
         image = createHSBArray();
@@ -49,9 +52,15 @@ public class HSBArraySort extends RGBArraySort {
 
             sortedImage.setRGB(x, y, pixel);
         }
+        setSortedImage(sortedImage);
     }
 
     private float[][] createHSBArray() {
+        int width = getWidth();
+        int height = getHeight();
+
+        BufferedImage originalImage = getOriginalImage();
+
         float[][] arr = new float[width * height][3];
 
         for (int i = 0; i < height; i++) {
@@ -63,18 +72,5 @@ public class HSBArraySort extends RGBArraySort {
         }
 
         return arr;
-    }
-
-    @Override
-    public File print() {
-        try {
-            sortedFile = new File(originalFile.toString() + "HSBArraySort.png");
-            ImageIO.write(sortedImage, "png", sortedFile);
-
-            return sortedFile;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

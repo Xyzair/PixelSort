@@ -1,34 +1,20 @@
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 
-public class RGBArraySort implements IPixelSort {
-
-    int width;
-    int height;
-    final File originalFile;
-    File sortedFile;
-    BufferedImage originalImage;
-    BufferedImage sortedImage;
+public class RGBArraySort extends PixelSort {
 
     public RGBArraySort(final File file) {
-        originalFile = file;
-        try {
-            originalImage = ImageIO.read(file);
-            width = originalImage.getWidth();
-            height = originalImage.getHeight();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        super(file);
     }
 
-    @Override
     public void sort() {
+        int width = getWidth();
+        int height = getHeight();
 
-        sortedImage = new BufferedImage(width, height,
+        BufferedImage sortedImage = new BufferedImage(width, height,
                 BufferedImage.TYPE_INT_RGB);
+
         int[] image = createRGBArray();
 
         //get the basis of the ordering
@@ -45,10 +31,16 @@ public class RGBArraySort implements IPixelSort {
 
             sortedImage.setRGB(x, y, pixel);
         }
+        setSortedImage(sortedImage);
+
     }
 
     private int[] createRGBArray() {
+        int width = getWidth();
+        int height = getHeight();
+        BufferedImage originalImage = getOriginalImage();
         int[] arr;
+
 
         arr = new int[width * height];
 
@@ -60,38 +52,5 @@ public class RGBArraySort implements IPixelSort {
         }
 
         return arr;
-    }
-
-    @Override
-    public File print() {
-        try {
-            sortedFile = new File(originalFile.toString() + "RGBArraySort.png");
-            ImageIO.write(sortedImage, "png", sortedFile);
-
-            return sortedFile;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public BufferedImage getOriginalImage() {
-        return originalImage;
-    }
-
-    @Override
-    public BufferedImage getSortedImage() {
-        return sortedImage;
-    }
-
-    @Override
-    public File getSortedFile() {
-        return sortedFile;
-    }
-
-    @Override
-    public String stats() {
-        return null;
     }
 }
