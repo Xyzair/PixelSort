@@ -21,27 +21,7 @@ public class HSBArraySort extends PixelSort {
         float[][] image;
         image = createHSBArray();
 
-        int n = image.length;
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                if (image[j][0] < image[j + 1][0]) {
-                    float[] temp = image[j];
-                    image[j] = image[j + 1];
-                    image[j + 1] = temp;
-                } else if (image[j][0] == image[j + 1][0]) {
-                    if (image[j][2] < image[j + 1][2]) {
-                        float[] temp = image[j];
-                        image[j] = image[j + 1];
-                        image[j + 1] = temp;
-                    } else if (image[j][1] == image[j + 1][1]
-                            && image[j][1] < image[j + 1][1]) {
-                        float[] temp = image[j];
-                        image[j] = image[j + 1];
-                        image[j + 1] = temp;
-                    }
-                }
-            }
-        }
+        bubbleSort(image);
 
         for (int i = 0; i < height * width; i++) {
             int pixel = Color.HSBtoRGB(image[i][0], image[i][1], image[i][2]);
@@ -72,5 +52,32 @@ public class HSBArraySort extends PixelSort {
         }
 
         return arr;
+    }
+
+    //Horrendously slow, O(n^2), but I didn't want to delete it.
+    private float[][] bubbleSort(float[][] image){
+        int n = image.length;
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (image[j][0] < image[j + 1][0]) {
+                    float[] temp = image[j];
+                    image[j] = image[j + 1];
+                    image[j + 1] = temp;
+                } else if (image[j][0] == image[j + 1][0]) {
+                    if (image[j][2] < image[j + 1][2]) {
+                        float[] temp = image[j];
+                        image[j] = image[j + 1];
+                        image[j + 1] = temp;
+                    } else if (image[j][1] == image[j + 1][1]
+                            && image[j][1] < image[j + 1][1]) {
+                        float[] temp = image[j];
+                        image[j] = image[j + 1];
+                        image[j + 1] = temp;
+                    }
+                }
+            }
+        }
+        return image;
     }
 }
