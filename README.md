@@ -8,7 +8,7 @@ Set up a Java Development environment of your choice, then download library and 
 
 ##Usage
 ```Java
-    IPixelSort sort = new RGBArraySort(file);
+    PixelSort sort = new RGBArraySort(file);
     sort.sort();
     sort.print(); //Returns the file location 
     or
