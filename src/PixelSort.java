@@ -36,8 +36,10 @@ abstract class PixelSort {
      */
     File print() {
         try {
-            sortedFile = new File(originalFile.toString()
-                    + this.getClass().getSimpleName() + ".png");
+            String str = originalFile.toString();
+            str = str.substring(0, str.length() - 4);
+            sortedFile = new File(str + this.getClass().getSimpleName()
+                    + ".png");
             ImageIO.write(sortedImage, "png", sortedFile);
 
             return sortedFile;
