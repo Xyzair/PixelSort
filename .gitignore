@@ -17,3 +17,5 @@ src/FileChooserDemo\.java
 PixelSort.iml
 
 .idea/
+.classpath/
+.project/
