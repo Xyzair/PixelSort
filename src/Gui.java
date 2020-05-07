@@ -245,7 +245,7 @@ public class Gui implements ActionListener {
 		{
 			if(imageFile != null)
 			{
-				PixelSort pixel = new HSBArraySort(imageFile);
+				PixelSort pixel = new HSBMergeSort(imageFile);
 				pixel.sort();
 				sortedFile = pixel.print();
 

@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class HSBArraySort extends PixelSort {
-    public HSBArraySort(File file) {
+public class HSBMergeSort extends PixelSort {
+    public HSBMergeSort(File file) {
         super(file);
     }
 
@@ -113,9 +113,8 @@ public class HSBArraySort extends PixelSort {
         int k = l;
         while (i < n1 && j < n2)
         {
-            if (L[i][2] < R[j][2]
-                    || (L[i][2] == R[j][2] && L[i][0] < R[j][0])
-                    || (L[i][2] == R[j][2] && L[i][0] == R[j][0] && L[i][1] < R[j][1]))
+            // 0 = Hue, 1 = Saturation, 2 = Brightness
+            if (LorR(L[i], R[j]))
             {
                 arr[k] = L[i];
                 i++;
@@ -160,6 +159,47 @@ public class HSBArraySort extends PixelSort {
 
             // Merge the sorted halves
             merge(arr, l, m, r);
+        }
+    }
+
+    //This is where the real sorting happens, the merge sort just make it fast.
+    //PS I think this might have been a fools errand to do a 2D sort on a 3D object
+    private boolean LorR(float[] l, float[] r) {
+        // 0 = Hue, 1 = Saturation, 2 = Brightness
+        //Brightness too low (basically black)
+        if(l[2] <= 15 || r[2] <= 15){
+            if(l[2] < r[2]){
+                return false;
+            } else if (l[2] == r[2]) {
+                if(l[1] > r[1] || (l[1] == r[1] && l[0] > r[0])) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        //Saturation too low (basically white)
+        } else if(l[1] <= 15 || r[1] <= 15){
+            if(l[1] < r[1]){
+                return false;
+            } else if (l[1] == r[1]) {
+                if(l[2] > r[2] || (l[2] == r[2] && l[0] > r[0])) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        } else {
+            if ( l[0] < r[0]
+                    || (l[0] == r[0] && l[1] < r[1])
+                    || (l[0] == r[0] && l[1] == r[1] && l[2] < r[2])) {
+                return true;
+            }
+            else
+                return false;
         }
     }
 }
