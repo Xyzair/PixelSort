@@ -1,8 +1,6 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 
 public class HSBMergeSort extends PixelSort {
@@ -114,7 +112,7 @@ public class HSBMergeSort extends PixelSort {
         while (i < n1 && j < n2)
         {
             // 0 = Hue, 1 = Saturation, 2 = Brightness
-            if (LorR(L[i], R[j]))
+            if (firstLorR(L[i], R[j]))
             {
                 arr[k] = L[i];
                 i++;
@@ -164,14 +162,14 @@ public class HSBMergeSort extends PixelSort {
 
     //This is where the real sorting happens, the merge sort just make it fast.
     //PS I think this might have been a fools errand to do a 2D sort on a 3D object
-    private boolean LorR(float[] l, float[] r) {
+    private boolean firstLorR(float[] l, float[] r) {
         // 0 = Hue, 1 = Saturation, 2 = Brightness
         //Brightness too low (basically black)
-        if(l[2] <= 15 || r[2] <= 15){
-            if(l[2] < r[2]){
+        if (l[2] <= 15 || r[2] <= 15) {
+            if (l[2] < r[2]) {
                 return false;
             } else if (l[2] == r[2]) {
-                if(l[1] > r[1] || (l[1] == r[1] && l[0] > r[0])) {
+                if (l[1] > r[1] || (l[1] == r[1] && l[0] > r[0])) {
                     return true;
                 } else {
                     return false;
@@ -180,11 +178,11 @@ public class HSBMergeSort extends PixelSort {
                 return true;
             }
         //Saturation too low (basically white)
-        } else if(l[1] <= 15 || r[1] <= 15){
-            if(l[1] < r[1]){
+        } else if (l[1] <= 15 || r[1] <= 15) {
+            if (l[1] < r[1]) {
                 return false;
             } else if (l[1] == r[1]) {
-                if(l[2] > r[2] || (l[2] == r[2] && l[0] > r[0])) {
+                if (l[2] > r[2] || (l[2] == r[2] && l[0] > r[0])) {
                     return true;
                 } else {
                     return false;
@@ -193,13 +191,13 @@ public class HSBMergeSort extends PixelSort {
                 return true;
             }
         } else {
-            if ( l[0] < r[0]
-                    || (l[0] == r[0] && l[1] < r[1])
-                    || (l[0] == r[0] && l[1] == r[1] && l[2] < r[2])) {
+            if (l[0] < r[0]
+                || (l[0] == r[0] && l[1] < r[1])
+                || (l[0] == r[0] && l[1] == r[1] && l[2] < r[2])) {
                 return true;
-            }
-            else
+            } else {
                 return false;
+            }
         }
     }
 }
